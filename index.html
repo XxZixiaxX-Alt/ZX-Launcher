@@ -1,38 +1,44 @@
-<!doctype html><html><head></head><body><!DOCTYPE html>
+
+<!doctype html>
 <html lang="en">
 
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>ZLauncher</title>
+	<title>ZX Launcher</title>
+	<link type="image/png" rel="shortcut icon" href="favicon.png" />
 	<style>
 		@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
 
 		body {
 			font-family: 'Open Sans', sans-serif;
 			display: flex;
-			justify-content: center;
-			align-items: center;
 			height: 100vh;
-			background-image: url('https://th.bing.com/th/id/R.f42d87eb0314129783adfaf1cf697a3c?rik=21R%2f1IEm9tUgZw&pid=ImgRaw&r=0');
+			background-image: url('/images/background.jpg');
 			background-size: cover;
 			background-position: center;
 			margin: 0;
 		}
 
 		.container {
-			background-color: #2b2b2b;
-			padding: 20px 40px;
-			border-radius: 8px;
+			background-color: #2b2b2c;
+			padding: 0px 40px;
+			border-top-left-radius: 8px;
+			border-bottom-left-radius: 8px;
 			box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-			width: 350px;
+			width: 33%;
 			text-align: center;
 			color: white;
+			position: absolute;
+			right: 0px;
+			height: 100%;
+			display: grid;
+			align-items: center;
 		}
 
 		.logo img {
-			width: 350px;
-			margin-top: -50px;
+			width: 90%;
+			margin-top: 50px;
 		}
 
 		.form-container {
@@ -41,12 +47,12 @@
 		}
 
 		input {
-			margin: 10px 0;
+			margin: auto;
 			padding: 10px;
 			border: 1px solid #ddd;
 			border-radius: 4px;
 			font-size: 14px;
-			width: calc(100% - 22px);
+			width: calc(90% - 22px);
 		}
 
 		button {
@@ -58,7 +64,10 @@
 			cursor: pointer;
 			font-size: 16px;
 			margin-top: 10px;
-			width: 100%;
+			width: 33%;
+			margin: auto;
+			margin-top: 1rem;
+			margin-bottom: 2rem;
 		}
 
 		button:hover {
@@ -79,20 +88,6 @@
 			font-size: 12px;
 		}
 
-		.error-message,
-		.success-message {
-			font-size: 12px;
-			height: 20px;
-		}
-
-		.error-message {
-			color: red;
-		}
-
-		.success-message {
-			color: green;
-		}
-
 		.link-container {
 			margin-top: 10px;
 			display: flex;
@@ -111,155 +106,21 @@
 
 <body>
 	<div class="container">
-		<div class="logo">
-			<img src="https://i.imgur.com/DvM0DFq.png" alt="Minecraft Logo">
-        </div>
 			<div class="form-container" id="loginForm">
+				<div class="logo">
+					<img src="/images/eaglercraft-title.png" alt="Minecraft Logo">
+				</div>
 				<h2>Login</h2>
 				<input type="text" id="loginUsername" placeholder="Username" required>
-				<input type="password" id="loginPassword" placeholder="Password" required>
 				<button onclick="login()">Log In</button>
-				<p id="loginError" class="error-message"></p>
-				<p id="loginSuccess" class="success-message"></p>
-				<div class="link-container">
-					<a href="#" onclick="toggleForms()">Sign up</a>
-					<a href="#" onclick="showRecoveryForm()">Forgot password?</a>
-				</div>
-			</div>
-			<div class="form-container" id="registerForm" style="display: none;">
-				<h2>Register</h2>
-				<input type="text" id="registerUsername" placeholder="Username" required>
-				<input type="password" id="registerPassword" placeholder="Password" required>
-				<button onclick="register()">Sign Up</button>
-				<p id="registerError" class="error-message"></p>
-				<p id="registerSuccess" class="success-message"></p>
-				<p id="recoveryKey" style="display: none;">Recovery Key: <span id="recoveryKeyText"></span></p>
-				<p>Already have an account? <a href="#" onclick="toggleForms()">Log in</a></p>
-			</div>
-			<div class="form-container" id="recoveryForm">
-				<h2>Account Recovery</h2>
-				<input type="text" id="recoveryKeyInput" placeholder="Enter your recovery key" required>
-				<button onclick="recoverAccount()">Recover Account</button>
-				<p id="recoveryError" class="error-message"></p>
-				<div class="link-container">
-					<a href="#" onclick="goBack()">Go Back</a>
-				</div>
 			</div>
 		</div>
 		<script>
-			let registeredUsers = [];
-
-        function toggleForms() {
-            const loginForm = document.getElementById('loginForm');
-            const registerForm = document.getElementById('registerForm');
-            const loginError = document.getElementById('loginError');
-            const registerError = document.getElementById('registerError');
-            const loginSuccess = document.getElementById('loginSuccess');
-            const registerSuccess = document.getElementById('registerSuccess');
-
-            if (loginForm.style.display === 'none') {
-                loginForm.style.display = 'block';
-                registerForm.style.display = 'none';
-                loginError.textContent = '';
-                loginSuccess.textContent = '';
-            } else {
-                loginForm.style.display = 'none';
-                registerForm.style.display = 'block';
-                registerError.textContent = '';
-                registerSuccess.textContent = '';
-                document.getElementById('recoveryKey').style.display = 'none';
-            }
-        }
-
-        function login() {
-            const username = document.getElementById('loginUsername').value;
-            const password = document.getElementById('loginPassword').value;
-            const loginError = document.getElementById('loginError');
-            const loginSuccess = document.getElementById('loginSuccess');
-
-            const user = registeredUsers.find(user => user.username === username && user.password === password);
-
-            if (user) {
-                loginSuccess.textContent = 'Logged in successfully';
-                loginSuccess.style.color = 'green';
-                loginError.textContent = '';
-                            setTimeout(function () {
-                    window.location.href = 'logo.html';
-                }, 1000); // changes speed
-            } else {
-                loginError.textContent = 'Invalid username or password';
-                loginError.style.color = 'red';
-                loginSuccess.textContent = '';
-            }
-        }
-
-        function generateRecoveryKey() {
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-            let recoveryKey = '';
-
-    do {
-                recoveryKey = '';
-                for (let i = 0; i < 10; i++) {
-                    recoveryKey += characters.charAt(Math.floor(Math.random() * characters.length));
-                }
-            } while (recoveryKey === 'LAX1DUDE');
-            return recoveryKey;
-        }
-
-        function register() {
-            const username = document.getElementById('registerUsername').value;
-            const password = document.getElementById('registerPassword').value;
-            const registerError = document.getElementById('registerError');
-            const registerSuccess = document.getElementById('registerSuccess');
-
-            const userExists = registeredUsers.some(user => user.username === username);
-
-            if (userExists) {
-                registerError.textContent = 'Username already registered';
-                registerError.style.color = 'red';
-                registerSuccess.textContent = '';
-            } else {
-                const recoveryKey = generateRecoveryKey();
-                registeredUsers.push({ username, password, recoveryKey });
-                registerSuccess.textContent = 'Registered successfully';
-                registerSuccess.style.color = 'green';
-                registerError.textContent = '';
-                document.getElementById('recoveryKey').style.display = 'block';
-                document.getElementById('recoveryKeyText').textContent = recoveryKey;
-            }
-        }
-
-        function showRecoveryForm() {
-            const registerForm = document.getElementById('registerForm');
-            const recoveryForm = document.getElementById('recoveryForm');
-
-            registerForm.style.display = 'none';
-            recoveryForm.style.display = 'block';
-        }
-
-        function recoverAccount() {
-            const recoveryKeyInput = document.getElementById('recoveryKeyInput').value;
-            const recoveryError = document.getElementById('recoveryError');
-
-            const userIndex = registeredUsers.findIndex(user => user.recoveryKey === recoveryKeyInput);
-
-            if (userIndex !== -1) {
-                              registeredUsers.splice(userIndex, 1);
-                recoveryError.textContent = 'Account recovered successfully';
-                recoveryError.style.color = 'green';
-            } else {
-                recoveryError.textContent = 'Invalid recovery key';
-                recoveryError.style.color = 'red';
-            }
-        }
-
-        function goBack() {
-            const registerForm = document.getElementById('registerForm');
-            const recoveryForm = document.getElementById('recoveryForm');
-
-            registerForm.style.display = 'block';
-            recoveryForm.style.display = 'none';
-        }
+			function login () {
+				let value = document.getElementById('loginUsername').value;
+				sessionStorage.account = JSON.stringify({pseudo: value});
+				location.pathname = "/logo.html";
+			}
 		</script>
 </body>
 
