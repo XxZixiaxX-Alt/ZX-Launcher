@@ -1,0 +1,421 @@
+<!doctype html>
+<html>
+    <head>
+        <style>
+            body {
+                background-color: rgb(23 17 37);
+                color: white;
+                font-family: "Noto Sans", sans-serif;
+                text-align: center;
+            }
+
+            :root {
+                color-scheme: dark;
+            }
+
+            label {
+                background-color: transparent;
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                padding: 7px 12px 7px 7px;
+                cursor: pointer;
+                user-select: none;
+                border-radius: 10px;
+                box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+                color: white;
+                text-align: left;
+                border: 3px solid white;
+                max-width: 10rem;
+            }
+
+            input:checked + label {
+                background-color: white;
+                color: black;
+            }
+
+            input {
+                display: none;
+            }
+
+            input + label svg {
+                transition: transform 0.5s;
+            }
+
+            input:checked + label svg {
+                transform: rotate(45deg);
+            }
+
+            input + label svg path {
+                stroke: white;
+                transition: stroke 0.5s;
+            }
+
+            input:checked + label svg path {
+                stroke: black;
+            }
+
+            input + label .action {
+                position: relative;
+                overflow: hidden;
+                display: grid;
+            }
+
+            input + label .action span {
+                grid-column-start: 1;
+                grid-column-end: 1;
+                grid-row-start: 1;
+                grid-row-end: 1;
+                transition: all 0.5s;
+            }
+
+            input + label .action span.option-1 {
+                transform: translate(0px, 0%);
+                opacity: 1;
+            }
+
+            input:disabled + label {
+                opacity: 0.5;
+            }
+
+            input:checked + label .action span.option-1 {
+                transform: translate(0px, -100%);
+                opacity: 0;
+            }
+
+            input + label .action span.option-2 {
+                transform: translate(0px, 100%);
+                opacity: 0;
+            }
+
+            input:checked + label .action span.option-2 {
+                transform: translate(0px, 0%);
+                opacity: 1;
+            }
+
+            .instancesList {
+                padding-right: 5%;
+                padding-left: 5%;
+                display: flex;
+                justify-content: space-evenly;
+                flex-wrap: wrap;
+            }
+
+            .instanceElement {
+                padding: 1rem;
+                text-align: center;
+                display: grid;
+                justify-items: center;
+            }
+
+            .instance-title {
+                margin-block-end: 0.75em;
+            }
+
+            .modded:after {
+                content: "";
+                display: inline-flex;
+                height: 20px;
+                width: 20px;
+                background-image: url(mods.png);
+                background-size: cover;
+                vertical-align: text-top;
+            }
+
+            .instance-version {
+                color: #fffb;
+                margin: 0.5rem;
+            }
+
+            .instance-img {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            body > h3 {
+                font-weight: bold;
+                margin-top: 2%;
+                margin-block-end: 0.5rem;
+                display: block;
+            }
+
+            hr {
+                border: 1px solid rgba(255, 255, 255, 0.267);
+            }
+        </style>
+    </head>
+    <body>
+        <h3>Vanilla clients</h3>
+        <hr />
+        <div class="instancesList" id="vanilla"></div>
+        <h3>Modified clients</h3>
+        <hr />
+        <div class="instancesList" id="modded"></div>
+        <h3 class="hacked">Hacked clients</h3>
+        <hr class="hacked" />
+        <div class="instancesList hacked" id="hacked"></div>
+        <script>
+            let modList = [
+                {
+                    version: "1.8",
+                    versionID: "1.8.8",
+                    name: "EaglercraftX",
+                    enabled: true,
+                    url: "/games/EaglercraftX 1.8.8/",
+                    img: "/games/EaglercraftX 1.8.8/icon.jpg",
+                    vanilla: true,
+                },
+                {
+                    version: "1.5",
+                    versionID: "1.5.2",
+                    name: "Eaglercraft",
+                    enabled: true,
+                    url: "/games/Eaglercraft 1.5.2/",
+                    img: "/games/Eaglercraft 1.5.2/icon.png",
+                    vanilla: true,
+                },
+                {
+                    version: "1.9",
+                    versionID: "1.9.4",
+                    name: "Eaglercraftλ",
+                    enabled: false,
+                    url: "/games/Eaglercraftλ 1.9/",
+                    img: "/games/Eaglercraftλ 1.9/icon.png",
+                    vanilla: true,
+                },
+                {
+                    version: "1.20",
+                    versionID: "1.20.4",
+                    name: "EaglercraftZ",
+                    enabled: false,
+                    url: "/games/EaglercraftZ 1.20.4/",
+                    img: "/games/EaglercraftZ 1.20.4/icon.png",
+                    vanilla: true,
+                },
+                {
+                    version: "b1.7",
+                    versionID: "beta 1.7.3",
+                    name: "Eaglercraft",
+                    enabled: false,
+                    url: "/games/Eaglercraft 1.7.3/",
+                    img: "/games/Eaglercraft 1.7.3/icon.png",
+                    vanilla: true,
+                },
+                {
+                    version: "1.2",
+                    versionID: "1.2.5",
+                    name: "Eaglercraft",
+                    enabled: false,
+                    url: "/games/Eaglercraft 1.2.5/",
+                    img: "/games/Eaglercraft 1.2.5/icon.png",
+                    vanilla: true,
+                },
+                {
+                    version: "b1.3",
+                    versionID: "beta 1.3",
+                    name: "Eaglercraft",
+                    enabled: false,
+                    url: "/games/Eaglercraft b1.3/",
+                    img: "/games/Eaglercraft b1.3/icon.png",
+                    vanilla: true,
+                },
+                {
+                    version: "a1.2.6",
+                    versionID: "alpha 1.2.6",
+                    name: "Eaglercraft",
+                    enabled: false,
+                    url: "/games/alpha/",
+                    img: "/games/alpha/icon.png",
+                    vanilla: true,
+                },
+                {
+                    version: "indev",
+                    versionID: "0.31",
+                    name: "Eaglercraft",
+                    enabled: false,
+                    url: "/games/indev/",
+                    img: "/games/indev/icon.png",
+                    vanilla: true,
+                },
+                {
+                    version: "infdev",
+                    versionID: "20100630",
+                    name: "Eaglercraft",
+                    enabled: false,
+                    url: "/games/infdev/",
+                    img: "/games/infdev/icon.png",
+                    vanilla: true,
+                    disabled: false,
+                },
+                {
+                    version: "classic",
+                    versionID: "0.30",
+                    name: "Eaglercraft",
+                    enabled: false,
+                    url: "/games/classic/",
+                    img: "/games/classic/icon.png",
+                    vanilla: true,
+                    disabled: false,
+                },
+                {
+                    version: "1.8",
+                    versionID: "1.8.8",
+                    name: "EaglerForge",
+                    enabled: false,
+                    url: "/games/Eaglerforge 1.8.8/",
+                    img: "/games/Eaglerforge 1.8.8/icon.png",
+                    vanilla: false,
+                    modded: true,
+                },
+                {
+                    version: "1.8",
+                    versionID: "1.8.8",
+                    name: "BetterEagler",
+                    enabled: false,
+                    url: "/games/BetterEagler/",
+                    img: "/games/BetterEagler/icon.png",
+                    vanilla: false,
+                },
+                {
+                    version: "1.8",
+                    versionID: "1.8.8",
+                    name: "Resent client",
+                    enabled: false,
+                    url: "/games/resent client/",
+                    img: "/games/resent client/favicon.png",
+                    vanilla: false,
+                },
+                {
+                    version: "1.8",
+                    versionID: "1.8.8",
+                    name: "Astra client",
+                    enabled: false,
+                    url: "/games/astra client/",
+                    img: "/games/astra client/icon.png",
+                    vanilla: false,
+                },
+                {
+                    version: "1.8",
+                    versionID: "1.8.8",
+                    name: "Shadow client",
+                    enabled: false,
+                    url: "/games/shadow client/",
+                    img: "/games/shadow client/icon.jpg",
+                    vanilla: false,
+                },
+                {
+                    version: "1.8",
+                    versionID: "1.8.8",
+                    name: "Shadow client v4",
+                    enabled: false,
+                    url: "/games/shadow client v4.5/",
+                    img: "/games/shadow client v4.5/icon.jpg",
+                    vanilla: false,
+                    modded: true,
+                },
+                {
+                    version: "1.11",
+                    versionID: "1.11.2",
+                    name: "Eaglercraft Zeta",
+                    enabled: false,
+                    url: "/games/eaglercraft zeta/",
+                    img: "/games/eaglercraft zeta/icon.png",
+                    vanilla: false,
+                    modded: false,
+                },
+                {
+                    version: "1.8.8",
+                    versionID: "1.8.8",
+                    name: "Starlike client",
+                    enabled: false,
+                    url: "/games/starlike client/",
+                    img: "/games/starlike client/starlike.webp",
+                    vanilla: false,
+                    modded: false,
+                },
+                {
+                    version: "1.8.8",
+                    versionID: "1.8.8",
+                    name: "Winston client",
+                    enabled: false,
+                    url: "/games/winston/",
+                    img: "/games/winston/favicon.png",
+                    vanilla: false,
+                    modded: false,
+                },
+            ];
+            if (!localStorage.instances) {
+                localStorage.instances = JSON.stringify(modList);
+            } else if (JSON.parse(localStorage.instances).length !== modList.length) {
+                let choice = confirm("We have detected an new instance. Do you want to add it to the games manager? Confirming this, you will lost your game selection, but will access to new client(s).")
+                if (choice) {
+                    localStorage.instances = JSON.stringify(modList);
+                }
+            }
+
+            let settings = JSON.parse(sessionStorage.settings);
+            if (settings.displayHacked === true) {
+                Array.from(document.getElementsByClassName("hacked")).forEach(
+                    (element) => {
+                        if (element.tagName == "H3") {
+                            element.style.display = "block";
+                        } else {
+                            element.style.display = "flex";
+                        }
+                    },
+                );
+            } else {
+                Array.from(document.getElementsByClassName("hacked")).forEach(
+                    (element) => {
+                        element.style.display = "none";
+                    },
+                );
+            }
+
+            let number = 0;
+            let instances = JSON.parse(localStorage.getItem("instances"));
+            instances.forEach((element) => {
+                let instance = document.createElement("div");
+                number++;
+                instance.className = "instanceElement";
+                instance.innerHTML = `
+                <h3 class="instance-title ${element.modded ? "modded" : ""}">${element.name} ${element.vanilla ? element.version : ""}</h3>
+                <img class="instance-img" src="${element.img}" height="50px" width="50px"/>
+                <span class="instance-version">Version ${element.versionID}</span>
+                <input type="checkbox" ${element.enabled ? "checked='checked'" : ""}" id="instance${number}" ${element.disabled ? "disabled" : ""} name="favorite-checkbox" value="favorite-button">
+                <label for="instance${number}" class="container">
+                    <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 12H18M12 6V18" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <div class="action">
+                        <span class="option-1">Add to list</span>
+                        <span class="option-2">Added to list</span>
+                    </div>
+                </label>
+                `;
+                if (element.vanilla) {
+                    document.getElementById("vanilla").appendChild(instance);
+                } else if (element.hacked === true) {
+                    document.getElementById("hacked").appendChild(instance);
+                } else {
+                    document.getElementById("modded").appendChild(instance);
+                }
+                document
+                    .getElementById(`instance${number}`)
+                    .addEventListener("click", refreshList);
+            });
+
+            function refreshList() {
+                let counter = 0;
+                let instances = JSON.parse(localStorage.getItem("instances"));
+                instances.forEach((element) => {
+                    counter++;
+                    element.enabled = document.getElementById(
+                        `instance${counter}`,
+                    ).checked;
+                });
+                localStorage.instances = JSON.stringify(instances);
+            }
+
+            refreshList();
+        </script>
+    </body>
+</html>

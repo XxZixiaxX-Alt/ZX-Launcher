@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+    <head>
+        <style>
+            * {
+                font-family: "Open Sans", sans-serif;
+                color: white;
+            }
+
+            :root {
+                color-scheme: dark;
+            }
+
+            body {
+                background-image: url(../../images/wallpaper.png);
+                background-size: auto;
+                background-attachment: fixed;
+                padding-top: 30%;
+                padding-left: 15%;
+                padding-right: 15%;
+                background-position: top center;
+            }
+
+            .update {
+                border: 0px;
+                border-bottom: 1px solid #ffffff3d;
+            }
+
+            .update-title {
+                margin-block-end: 0.5rem;
+            }
+
+            .update-date {
+                font-size: small;
+                font-weight: 600;
+                color: #ffffff83;
+                margin-left: 0.5rem;
+            }
+
+            .update-content {
+                margin-block-start: 0.5rem;
+            }
+
+            #updateList {
+                background-color: #0b00148a;
+                padding-left: 1rem;
+                padding-top: 0.5rem;
+                backdrop-filter: blur(3px);
+            }
+        </style>
+    </head>
+    <body>
+        <div id="updateList"></div>
+        <script>
+            const updates = [
+                {
+                    title: "Winston Client",
+                    date: "26/10/2024",
+                    content: `- The Winston client (by Murturtle) was added.<br>
+                    &nbspFeatures:<br>
+                    &nbsp&nbsp&nbsp- Add a terrifying mob that spawn only the night and will try to kill you. <br>
+                    - Starlike client was updated to the latest version (a beta 0.3).<br>
+                    - EaglercraftX 1.8.8 was updated to the latest version (u40).`,
+                },
+                {
+                    title: "Starlike Client update",
+                    date: "16/10/2024",
+                    content: `- Starlike client was updated to the latest version (0.2)`,
+                },
+                {
+                    title: "Starlike Client",
+                    date: "25/09/2024",
+                    content: `- Starlike client was added<br>
+                    &nbspFeatures:<br>
+                    &nbsp&nbsp&nbsp- 1.14 textures<br>
+                    &nbsp&nbsp&nbsp- Iron Grate<br>
+                    &nbsp&nbsp&nbsp- Platinum Ore (rarer than diamond)<br>
+                    &nbsp&nbsp&nbsp- Platinum Pickaxe and Sword<br>
+                    - EaglercraftX 1.8.8 was updated to the latest version (u38).`,
+                },
+                {
+                    title: "Eaglercraft u37",
+                    date: "22/09/2024",
+                    content: `- EaglercraftX 1.8.8 was updated to u37.`,
+                },
+                {
+                    title: "Eaglercraft Zeta",
+                    date: "12/09/2024",
+                    content: `- Eaglercraft zeta 1.11 was added.
+                    Please note that this version is currently not finished, and that will not be a remake of 1.11 but a version with various features of the differents versions of minecraft,
+                    <br>so I added it as a modded version of eaglercraft.
+                    <br>- The hacked clients were removed from the launcher; There will be some cheat mods accessible in the future.`,
+                },
+                {
+                    title: "Profile editor",
+                    date: "06/09/2024",
+                    content: `- Added a profile editor synchronized with the most part of the eaglercraft games. You can access it clicking on your username in the top left of the page.
+                    <br>- Changed a bit how the mod loader works, adding some cool mods loaded by default. The mods can now be enabled/disabled for a better mod management and debugging experience.
+                    <br> If the mods don't appear, or if something seems to not work, please erase your localstorage (if you don't know how, search on google).
+                    <br>- Updated Eaglercraft b1.7 by PeytonPlayz to the last version.
+                    <br>- Added the discord server invite in the top left of the launcher page.
+                    <br>- Fixed a lot of bugs.`,
+                },
+                {
+                    title: "Console page",
+                    date: "01/09/2024",
+                    content: `- Added a entire console page, from where you can read the logs of your game in real time, and see the crash errors.
+                    <br>- On launcher page reload, close or redirect, the opened game is now automatically closed.
+                    <br>- Fixed some bugs.`,
+                },
+                {
+                    title: "New clients",
+                    date: "08/07/2024",
+                    content: `- Added two clients: Eaglercraft 1.2.5, and Shadow Client v4.5 by PleytonPlayz585.
+                    <br>Shadow client is supporting the eaglerforge mods.`,
+                },
+                {
+                    title: "Instance tab",
+                    date: "05/07/2024",
+                    content: `- Added an instance tab to manage which game you want to have in your menu.
+                    <br>There is two categories, one for vanilla and one for modified instances.`,
+                },
+                {
+                    title: "First news",
+                    date: "03/07/2024",
+                    content: `- This is the first version of the Delta Launcher! It is a fork of the Legends Launcher.`,
+                },
+            ];
+            updates.forEach((element) => {
+                const update = `
+                <div class="update">
+                    <h3 class="update-title"> ${element.title} <span class="update-date"> ${element.date} </span></h3>
+                    <p class="update-content"> ${element.content} </p>
+                </div>`;
+                document.getElementById("updateList").innerHTML += update;
+            });
+        </script>
+    </body>
+</html>

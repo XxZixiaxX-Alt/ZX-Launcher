@@ -1,0 +1,452 @@
+<html>
+    <head>
+        <style>
+            body {
+                background-color: rgb(23 17 37);
+                color: white;
+                font-family: "Noto Sans", sans-serif;
+            }
+
+            :root {
+                color-scheme: dark;
+            }
+
+            header {
+                text-align: center;
+            }
+
+            #modList {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            .mod {
+                height: 3rem;
+            }
+
+            .mod > td:not(.remButtonDiv) {
+                border-top: 1px solid #fff4;
+                border-bottom: 1px solid #fff4;
+            }
+
+            .modName {
+                font-weight: bold;
+                margin: 1rem;
+                font-size: 1.2rem;
+                width: 25%;
+            }
+
+            .modAuthor {
+                color: #fff7;
+                margin: 1rem;
+                font-size: 1rem;
+            }
+
+            .modAuthor > a {
+                color: #fff7;
+            }
+
+
+            .modIcon {
+                width: 7%;
+                text-align: center;
+            }
+
+            .modIcon > img {
+                height: 2.5rem;
+            }
+
+            button.new {
+                position: absolute;
+                right: 2rem;
+                top: 1rem;
+            }
+  
+            .button-7 {
+                background-color: #0095ff;
+                border: 1px solid transparent;
+                border-radius: 3px;
+                box-shadow: rgba(255, 255, 255, .4) 0 1px 0 0 inset;
+                box-sizing: border-box;
+                color: #fff;
+                cursor: pointer;
+                display: inline-block;
+                font-family: -apple-system,system-ui,"Segoe UI","Liberation Sans",sans-serif;
+                font-size: 13px;
+                font-weight: 400;
+                line-height: 1.15385;
+                margin: 0;
+                outline: none;
+                padding: 8px .8em;
+                text-align: center;
+                text-decoration: none;
+                user-select: none;
+                -webkit-user-select: none;
+                touch-action: manipulation;
+                vertical-align: baseline;
+                white-space: nowrap;
+            }
+            
+            .button-7:hover,
+            .button-7:focus {
+                background-color: #07c;
+            }
+            
+            .button-7:focus {
+                box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+            }
+            
+            .button-7:active {
+                background-color: #0064bd;
+                box-shadow: none;
+            }
+
+            .remButton {
+                width: 2.2rem;
+                height: 2.2rem;
+                background-image: url(trash.svg);
+                background-size: contain;
+                background-repeat: no-repeat;
+                position: absolute;
+                right: 1.4rem;
+            }
+
+            .remButtonDiv {
+                display: block;
+                padding-top: 0.4rem;
+                position: absolute;
+            }
+
+            br {
+                display: none;
+            }
+
+            .toggle-pill-color input[type="checkbox"] {
+                display: none;
+            }
+
+            .toggle-pill-color input[type="checkbox"] + label {
+                display: block;
+                position: relative;
+                width: 3em;
+                height: 1.6em;
+                margin-bottom: 20px;
+                border-radius: 1em;
+                background: #e84d4d;
+                box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.3);
+                cursor: pointer;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                -webkit-transition: background 0.1s ease-in-out;
+                transition: background 0.1s ease-in-out;
+            }
+            .toggle-pill-color input[type="checkbox"] + label:before {
+                content: "";
+                display: block;
+                width: 1.2em;
+                height: 1.2em;
+                border-radius: 1em;
+                background: #fff;
+                box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.2);
+                position: absolute;
+                left: 0.2em;
+                top: 0.2em;
+                -webkit-transition: all 0.2s ease-in-out;
+                transition: all 0.2s ease-in-out;
+            }
+            .toggle-pill-color input[type="checkbox"]:checked + label {
+                background: #47cf73;
+            }
+            .toggle-pill-color input[type="checkbox"]:checked + label:before {
+                box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.2);
+                left: 1.6em;
+            }
+
+            .toggle-pill-color {
+                position: absolute;
+                right: 5rem;
+                margin-top: 0.7rem;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>Mod manager</h1>
+        </header>
+        <table id="modList">
+
+        </table>
+        <script>
+            if (!localStorage.modList) {
+                localStorage.modList = JSON.stringify([
+                    {
+                        "url": "https://raw.githubusercontent.com/Murturtle/MursMods/main/FreshEaglerUI.js",
+                        "type": "link",
+                        "name": "FreshEaglerUI",
+                        "enabled": false,
+                        "canDelete": false,
+                        "author": "Murturtle",
+                        "authorURL": "https://github.com/Murturtle",
+                        "iconURL": "https://logolook.net/wp-content/uploads/2021/06/Symbol-Minecraft.png"
+                    },
+                    {
+                        "url": "https://raw.githubusercontent.com/Murturtle/MursMods/main/Blur.js",
+                        "type": "link",
+                        "name": "Blur",
+                        "enabled": false,
+                        "canDelete": false,
+                        "author": "Murturtle",
+                        "authorURL": "https://github.com/Murturtle",
+                        "iconURL": "https://raw.githubusercontent.com/Murturtle/MursMods/main/Blur.png"
+                    },
+                    {
+                        "url": "https://raw.githubusercontent.com/radmanplays/eaglerreborn-plugins/main/jetpack-ef.js",
+                        "type": "link",
+                        "name": "Jetpack",
+                        "enabled": false,
+                        "canDelete": false,
+                        "author": "Radmanplays",
+                        "authorURL": "https://github.com/radmanplays",
+                        "iconURL": "https://eaglerrinth.github.io/images/jetpack_scaled_16x_pngcrushed.png"
+                    },
+                    {
+                        "url": "https://raw.githubusercontent.com/BarneyCompiler/barneysmods/main/Barneys%20Music%20Player",
+                        "type": "link",
+                        "name": "Barney's Music Mod",
+                        "enabled": false,
+                        "canDelete": false,
+                        "author": "BarneyTheGod",
+                        "authorURL": "https://github.com/BarneyCompiler",
+                        "iconURL": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNY9cuS9betbnjFw2W_ZCXs_hW9IPgxtIXKUPYxIV1mw&s"
+                    },
+                    {
+                        "url": "https://raw.githubusercontent.com/eaglerforge/EaglerForge/main/ExampleMods/grapplehook.js",
+                        "type": "link",
+                        "name": "GrappleHook",
+                        "enabled": false,
+                        "canDelete": false,
+                        "author": "ZXMushroom63",
+                        "authorURL": "https://github.com/ZXMushroom63",
+                        "iconURL": "https://eaglerrinth.github.io/images/grappling-gun.png"
+                    },
+                    {
+                        "url": "https://raw.githubusercontent.com/EaglerRinth/eaglerrinth.github.io/main/CommunityMods/Speed.js",
+                        "type": "link",
+                        "name": "Speed Mod",
+                        "enabled": false,
+                        "canDelete": false,
+                        "author": "Radmanplays",
+                        "authorURL": "https://github.com/radmanplays",
+                        "iconURL": "https://eaglerrinth.github.io/images/speed.png"
+                    },
+                    {
+                        "url": "https://raw.githubusercontent.com/EaglerRinth/eaglerrinth.github.io/main/CommunityMods/ChatShortcuts.js",
+                        "type": "link",
+                        "name": "Chat Shortcuts",
+                        "enabled": false,
+                        "canDelete": false,
+                        "author": "ZXMushroom63",
+                        "authorURL": "https://github.com/ZXMushroom63",
+                        "iconURL": "https://cdn.modrinth.com/data/ewV42P1j/3e89b96a37f1f3cb8492d504826c520b8b25185c.png"
+                    },
+                    {
+                        "url": "https://github.com/EaglerRinth/eaglerrinth.github.io/blob/main/CommunityMods/AutoFish.js",
+                        "type": "link",
+                        "name": "AutoFish",
+                        "enabled": false,
+                        "canDelete": false,
+                        "author": "ZXMushroom63",
+                        "authorURL": "https://github.com/ZXMushroom63",
+                        "iconURL": "https://static.wikia.nocookie.net/minecraft_gamepedia/images/7/7f/Fishing_Rod_JE2_BE2.png"
+                    },
+                    {
+                        "url": "https://github.com/AstralisLLC/EaglerForge-Mods/blob/main/StatsHudV3.js",
+                        "type": "link",
+                        "name": "StatsHud",
+                        "enabled": false,
+                        "canDelete": false,
+                        "author": "Neverflagastralis",
+                        "authorURL": "https://github.com/AstralisLLC",
+                        "iconURL": "https://eaglerrinth.github.io/images/newstatHUD.png"
+                    },
+                    {
+                        "url": "https://raw.githubusercontent.com/OeildeLynx31/eaglerforge-mods/main/jump_boost.js",
+                        "type": "link",
+                        "name": "Jump boost",
+                        "enabled": false,
+                        "canDelete": false,
+                        "author": "Oeildelynx31",
+                        "authorURL": "https://github.com/OeildeLynx31",
+                        "iconURL": "https://static.wikia.nocookie.net/minecraft_gamepedia/images/7/7d/Jump_Boost_JE2_BE2.png"
+                    },
+                    {
+                        "url": "https://raw.githubusercontent.com/OeildeLynx31/eaglerforge-mods/main/eagler_recipe.js",
+                        "type": "link",
+                        "name": "Recipe mod",
+                        "enabled": false,
+                        "canDelete": false,
+                        "author": "Oeildelynx31",
+                        "authorURL": "https://github.com/OeildeLynx31",
+                        "iconURL": "https://static.wikia.nocookie.net/minecraft_gamepedia/images/3/34/Knowledge_Book_JE1.png"
+                    },
+                    {
+                        "url": "https://raw.githubusercontent.com/OeildeLynx31/eaglerforge-mods/main/auto_respawn.js",
+                        "type": "link",
+                        "name": "Auto respawn",
+                        "enabled": false,
+                        "canDelete": false,
+                        "author": "Oeildelynx31",
+                        "authorURL": "https://github.com/OeildeLynx31",
+                        "iconURL": "https://minecraft.wiki/images/thumb/Respawn_Anchor_%280%29_JE1.png/150px-Respawn_Anchor_%280%29_JE1.png"
+                    },
+                    {
+                        "url": "https://raw.githubusercontent.com/OeildeLynx31/eaglerforge-mods/main/blue_horizon_fix.js",
+                        "type": "link",
+                        "name": "Blue horizon fix",
+                        "enabled": false,
+                        "canDelete": false,
+                        "author": "Oeildelynx31",
+                        "authorURL": "https://github.com/OeildeLynx31",
+                        "iconURL": "https://logolook.net/wp-content/uploads/2021/06/Symbol-Minecraft.png"
+                    },
+                    {
+                        "url": "data:text/javascript;charset=utf-8;base64,TW9kQVBJLnJlcXVpcmUoInBsYXllciIpLE1vZEFQSS5hZGRFdmVudExpc3RlbmVyKCJ1cGRhdGUiLCgpPT57TW9kQVBJLnBsYXllci5pc0NvbGxpZGVkSG9yaXpvbnRhbGx5JiYoTW9kQVBJLnBsYXllci5tb3Rpb25ZPS4yLE1vZEFQSS5wbGF5ZXIucmVsb2FkKCkpfSk7",
+                        "type": "link",
+                        "name": "Spider",
+                        "enabled": false,
+                        "canDelete": false,
+                        "author": "Radmanplays",
+                        "authorURL": "https://github.com/radmanplays",
+                        "iconURL": "https://www.fractalcamo.com/uploads/5/9/0/2/5902948/s189772745713394276_p7009_i156_w1500.jpeg"
+                    },
+                    {
+                        "url": "https://raw.githubusercontent.com/eaglerforge/EaglerForge/main/ExampleMods/IRCchat.js",
+                        "type": "link",
+                        "name": "IRCchat",
+                        "enabled": false,
+                        "canDelete": false,
+                        "author": "Radmanplays",
+                        "authorURL": "https://github.com/radmanplays",
+                        "iconURL": "https://static.wikia.nocookie.net/minecraft_zh_gamepedia/images/0/00/Chat_button_BE1.png"
+                    },
+                    {
+                        "url": "data:text/javascript;charset=utf-8;base64,TW9kQVBJLmJsb2Nrcy5haXIubGlnaHRWYWx1ZT0xMCxNb2RBUEkuYmxvY2tzLmFpci5yZWxvYWQoKTs=",
+                        "type": "link",
+                        "name": "Fullbright",
+                        "enabled": false,
+                        "canDelete": false,
+                        "author": "Radmanplays",
+                        "authorURL": "https://github.com/radmanplays",
+                        "iconURL": "https://media.forgecdn.net/avatars/thumbnails/789/469/256/256/638143955162709700.png"
+                    }
+                ]);
+            }
+            
+            function displayMods() {
+                let modList = document.getElementById("modList");
+                modList.innerHTML = '';
+                JSON.parse(localStorage.modList).forEach(element => {
+                    let mod = document.createElement('tr');
+                    mod.className = "mod";
+                    mod.id = element.name;
+
+                    let modName = document.createElement('td');
+                    modName.className = "modName";
+                    modName.innerText = element.name;
+
+                    let modAuthor = document.createElement('td');
+                    modAuthor.className = "modAuthor";
+                    if (element.author) {
+                        let authorLink = document.createElement('a');
+                        authorLink.setAttribute('href', element.authorURL);
+                        authorLink.setAttribute('target', "_blank");
+                        authorLink.innerText = element.author;
+                        modAuthor.appendChild(document.createTextNode('By: '));
+                        modAuthor.appendChild(authorLink);
+                    } else {
+                        modAuthor.innerText = "By: you"
+                    }
+
+                    let modIcon = document.createElement('td');
+                    modIcon.className = "modIcon";
+                    let iconImg = document.createElement('img');
+                    if (element.iconURL) {
+                        iconImg.setAttribute('src', element.iconURL);
+                    } else {
+                        iconImg.setAttribute('src', 'https://logolook.net/wp-content/uploads/2021/06/Symbol-Minecraft.png');
+                    }
+                    modIcon.appendChild(iconImg);
+                    mod.appendChild(modIcon);
+                    
+
+                    let remButtonDiv = document.createElement('td');
+                    remButtonDiv.className = "remButtonDiv";
+                    let remButton = document.createElement('button');
+                    remButton.className = "button-7 remButton";
+                    remButton.onclick = function() {
+                        removeMod(element.name);
+                    }
+
+                    let toggleButtonDiv = document.createElement('div');
+                    toggleButtonDiv.className = "toggle-pill-color";
+
+                    let toggleInput =  document.createElement('input');
+                    toggleInput.setAttribute('type', 'checkbox');
+                    toggleInput.setAttribute('id', 'pill3-'+element.name);
+                    toggleInput.setAttribute('name', 'check');
+                    if (element.enabled) {
+                        toggleInput.setAttribute('checked', '');
+                    }
+
+                    let toggleLabel =  document.createElement('label');
+                    toggleLabel.setAttribute('for', 'pill3-'+element.name);
+                    toggleLabel.onclick = function () {
+                        let mods = JSON.parse(localStorage.getItem('modList'));
+                        mods.forEach(mod => {
+                            if (mod.name === element.name) {
+                                mod.enabled = !toggleInput.checked;
+                            }
+                        });
+                        localStorage.setItem('modList', JSON.stringify(mods));
+                    }
+
+                    toggleButtonDiv.appendChild(toggleInput);
+                    toggleButtonDiv.appendChild(toggleLabel);
+
+                    remButtonDiv.appendChild(remButton);
+                    mod.appendChild(toggleButtonDiv);
+                    mod.appendChild(modName);
+                    mod.appendChild(modAuthor);
+                    if (element.canDelete) {
+                        mod.appendChild(remButtonDiv);
+                    }
+                    modList.appendChild(mod);
+                });
+            }
+
+            function removeMod(name) {
+                if (confirm('Do you really want to remove this mod?')) {
+                    let newList = [];
+                    JSON.parse(localStorage.modList).forEach(element => {
+                        if (element.name !== name) {
+                            newList.push(element);
+                        }
+                    })
+                    localStorage.modList = JSON.stringify(newList);
+                    displayMods()
+                }
+            }
+
+            displayMods()
+
+            window.addModButton = document.createElement('button');
+            addModButton.innerText = "+ new mod";
+            addModButton.className = "button-7 new";
+            addModButton.onclick = function() {
+                window.location.href = "new/";
+            }
+			document.body.appendChild(addModButton);
+        </script>
+    </body>
+</html>

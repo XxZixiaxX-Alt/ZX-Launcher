@@ -1,0 +1,129 @@
+<html>
+    <head>
+        <style>
+            body {
+                background-color: rgb(23 17 37);
+                color: white;
+                font-family: "Noto Sans", sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100%;
+                margin: 0px;
+            }
+
+            input:not([type="checkbox"]), textarea {
+                display: block;
+                padding: .5rem;
+                margin-bottom: .5rem;
+                width: 100%;
+                border-radius: .5rem;
+                border: 2px solid rgb(8 3 39);
+            }
+
+            #form {
+                width: 75%;
+                position: relative;
+            }
+
+            button {
+                padding: .4rem;
+                position: absolute;
+                margin-top: .75rem;
+            }
+
+            #validate {
+                right: 1rem;
+            }
+
+            #cancel {
+                left: 1rem;
+            }
+
+
+            .button-7 {
+                background-color: #0095ff;
+                border: 1px solid transparent;
+                border-radius: 3px;
+                box-shadow: rgba(255, 255, 255, .4) 0 1px 0 0 inset;
+                box-sizing: border-box;
+                color: #fff;
+                cursor: pointer;
+                display: inline-block;
+                font-family: -apple-system,system-ui,"Segoe UI","Liberation Sans",sans-serif;
+                font-size: 13px;
+                font-weight: 400;
+                line-height: 1.15385;
+                margin: 0;
+                outline: none;
+                padding: 8px .8em;
+                text-align: center;
+                text-decoration: none;
+                user-select: none;
+                -webkit-user-select: none;
+                touch-action: manipulation;
+                vertical-align: baseline;
+                white-space: nowrap;
+            }
+            
+            .button-7:hover,
+            .button-7:focus {
+                background-color: #07c;
+            }
+            
+            .button-7:focus {
+                box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+            }
+            
+            .button-7:active {
+                background-color: #0064bd;
+                box-shadow: none;
+            }
+
+            textarea {
+                resize: none;
+                width: 100%;
+                height: auto;
+                min-height: 10rem;
+                margin-bottom: .5rem;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="form">
+            <label for="name">Mod name:</label>
+            <input type="text" id="name" value="Mod">
+            <label for="code">Mod code:</label>
+            <textarea id="code"></textarea>
+            <br/>
+            <button id="validate" class="button-7">Validate</button>
+            <button id="cancel" class="button-7">Cancel</button>
+        </div>
+        <script>
+            document.getElementById('validate').onclick = function() {
+                let code = document.getElementById('code').value;
+                let name = document.getElementById('name').value;
+                let modList = JSON.parse(localStorage.modList);
+                let nameAlreadyUsed = modList.find((element) => element.name === name);
+                if (!nameAlreadyUsed) {
+                    let newMod = {
+                        "url": btoa(code),
+                        "type": "text",
+                        "name": name,
+                        "enabled": false, 
+                        "canDelete": true,
+                    }
+                    modList.unshift(newMod);
+                    localStorage.modList = JSON.stringify(modList);
+                    window.location.href = "../";
+                } else {
+                    alert("Error : " + "Mod name already used!");
+                }
+            }
+
+            document.getElementById('cancel').onclick = function() {
+                window.location.href = "../";
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="checkboxes.css">
+        <style>
+            body {
+                background-color: rgb(23 17 37);
+                color: white;
+                font-family: "Noto Sans", sans-serif;
+                text-align: center;
+            }
+
+            :root {
+                color-scheme: dark;
+            }
+
+            .instancesList {
+                padding-right: 5%;
+                padding-left: 5%;
+                display: flex;
+                justify-content: space-evenly;
+                flex-wrap: wrap;
+            }
+
+            .instanceElement {
+                padding: 1rem;
+                text-align: center;
+                display: grid;
+            }
+
+            .instance-title {
+                margin-block-end: .75em;
+            }
+
+            .instance-version {
+                color: #fffb;
+                margin: .5rem;
+            }
+
+            .instance-img {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            body > h3 {
+                font-weight: bold;
+                margin-top: 2%;
+                margin-block-end: .5rem;
+            }
+
+            hr {
+                border: 1px solid rgba(255, 255, 255, 0.267);
+            }
+        </style>
+    </head>
+    <body>
+        <script>
+            let defaultSettings = {
+                iconClients: true,
+                showConsoleAuto: true,
+            }
+            if (sessionStorage.getItem("settings") == null) {
+                sessionStorage.settings = JSON.stringify(defaultSettings);
+            }
+        </script>
+        <h3>
+            Client settings
+        </h3>
+        <hr/><br/>
+        <div class="checkbox-wrapper-14">
+            <input id="iconClients" type="checkbox" class="switch" onchange="refreshSettings()">
+            <label for="iconClients">Display client icons in selector</label>
+        </div>
+        <div class="checkbox-wrapper-14">
+            <input id="showConsoleAuto" type="checkbox" class="switch" onchange="refreshSettings()">
+            <label for="showConsoleAuto">Display automatically console when game starts</label>
+        </div>
+        <script>
+            let settings = JSON.parse(sessionStorage.getItem("settings"));
+            document.getElementById('hackedClients').checked = settings.displayHacked;
+            document.getElementById('iconClients').checked = settings.iconClients;
+            document.getElementById('showConsoleAuto').checked = settings.showConsoleAuto;
+
+            function refreshSettings() {
+                let settingsList = {
+                    iconClients: document.getElementById('iconClients').checked,
+                    showConsoleAuto: document.getElementById('showConsoleAuto').checked
+                };
+                sessionStorage.settings = JSON.stringify(settingsList);
+            }
+        </script>
+    </body>
+</html>
