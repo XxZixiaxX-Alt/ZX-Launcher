@@ -21,7 +21,7 @@
 						<img id="news-icon" class="aside-icon" src="/images/update-icon.png" alt="Minecraft's news icon">
 						<p class="aside-paragraph"><b>Updates</b></p>
 					</div>
-					<div class="aside-box" id="minecraft-java" onclick="goToPage('instances')">
+					<div class="aside-box" id="minecraft-java" onclick="goToPage('play')">
 						<img id="minecraft-java-icon" class="aside-icon" src="/images/minecraft-logo.png" alt="Minecraft java's icon">
 						<p class="aside-paragraph"><b>Games</b></p>
 					</div>
@@ -132,6 +132,7 @@
 
 		createPage('serverListPage', 'https://servers.eaglercraft.com/');
 		createPage('updates', '/pages/updates/');
+		createPage('updates', '/pages/play/');
 		createPage('instances', '/pages/instances/');
 		createPage('credits', '/pages/credits/');
 		createPage('crash', '/pages/crash/');
@@ -291,14 +292,14 @@
 			document.getElementById('minecraft-play').style.display = "block";
 			if (cause === "crash") {
 				goToPage("crash");
-				consoleLog('\n \n Delta Launcher: Game crashed with error:', "error");
+				consoleLog('\n \n ZX Launcher: Game crashed with error:', "error");
 				consoleLog(error, "error")
 			} else if (JSON.parse(sessionStorage.settings).showConsoleAuto) {
 				goToPage('updates');
 			}
 
 			if (cause === "kill") {
-				consoleLog('Delta Launcher: Game process killed by user', "error");
+				consoleLog('ZX Launcher: Game process killed by user', "error");
 			}
 		}
 
